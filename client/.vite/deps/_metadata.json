@@ -1,0 +1,34 @@
+{
+  "hash": "0efb92c5",
+  "configHash": "ba9ca562",
+  "lockfileHash": "85b396a5",
+  "browserHash": "9e2264c3",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "8c1b49fe",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "1cb864e5",
+      "needsInterop": true
+    },
+    "class-variance-authority": {
+      "src": "../../node_modules/class-variance-authority/dist/index.mjs",
+      "file": "class-variance-authority.js",
+      "fileHash": "1718827c",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-62IMSUQ4": {
+      "file": "chunk-62IMSUQ4.js"
+    },
+    "chunk-BUSYA2B4": {
+      "file": "chunk-BUSYA2B4.js"
+    }
+  }
+}

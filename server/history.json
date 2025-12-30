@@ -1,0 +1,256 @@
+[
+  {
+    "status": "Microplastics Detected",
+    "detections": 7,
+    "confidence": 0.742,
+    "color": "danger",
+    "image_url": "/api/static/result_68857d51ce304eff88213ce448aab280.jpg",
+    "timestamp": 1766994659,
+    "engine": "YOLOv8 + CNN"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 1,
+    "confidence": 0.025,
+    "color": "danger",
+    "image_url": "/api/static/result_caaa408fec724473a515a1a51028bead.jpg",
+    "timestamp": 1766987902,
+    "engine": "YOLOv8 + CNN"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 1,
+    "confidence": 0.025,
+    "color": "danger",
+    "image_url": "/api/static/result_ccce7e077f8d44b69131e25cad1fe7e0.jpg",
+    "timestamp": 1766987882,
+    "engine": "YOLOv8 + CNN"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 6,
+    "confidence": 0.206,
+    "color": "danger",
+    "image_url": "/api/static/result_02aa6ae403ce4c97950cc1bd6bcba66d.jpg",
+    "timestamp": 1766987846,
+    "engine": "YOLOv8 + CNN"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 6,
+    "confidence": 0.206,
+    "color": "danger",
+    "image_url": "/api/static/result_76f6096b57e04bb3a541e0990d5668d4.jpg",
+    "timestamp": 1766987663,
+    "engine": "YOLOv8 + CNN"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766835158,
+    "image_url": "/api/static/result_13e0ccd40bfa4ea5ac3bb0e7f0da4068.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "17:02"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 4,
+    "confidence": "0.05",
+    "color": "danger",
+    "timestamp": 1766833490,
+    "image_url": "/api/static/result_17f7eaab72ed4ff2a5632d6c8f58afdb.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:34"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 18,
+    "confidence": "0.76",
+    "color": "danger",
+    "timestamp": 1766833340,
+    "image_url": "/api/static/result_22d507b1ce364547b041b1afb6f3986a.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:32"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766833329,
+    "image_url": "/api/static/result_ba7b275a0d3a4780b12775ffef5f716e.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:32"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 1,
+    "confidence": "0.02",
+    "color": "danger",
+    "timestamp": 1766833308,
+    "image_url": "/api/static/result_b0cc15a0400d48ddb028a07716e254d8.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:31"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 11,
+    "confidence": "0.74",
+    "color": "danger",
+    "timestamp": 1766833298,
+    "image_url": "/api/static/result_4d745d89ffc949299786925c8fe37076.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:31"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 13,
+    "confidence": "0.25",
+    "color": "danger",
+    "timestamp": 1766833127,
+    "image_url": "/api/static/result_ffbb8da516dc4140a2f6ab20b0ed6a37.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:28"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 1,
+    "confidence": "0.02",
+    "color": "danger",
+    "timestamp": 1766833104,
+    "image_url": "/api/static/result_73af24be2b8b4402ab0aea09e729b19b.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:28"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766832823,
+    "image_url": "/api/static/result_7bcef2cfb6b847f5b968976a2e2e85b3.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:23"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766832250,
+    "image_url": "/api/static/result_8e43b14bceaf45df9bfcc73b92fcae03.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:14"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766831968,
+    "image_url": "/api/static/result_22ac5df3d573476d9dedeec4286f679a.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:09"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766831947,
+    "image_url": "/api/static/result_0ecf06aca0f048419f89ec432c99d3c7.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:09"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766831917,
+    "image_url": "/api/static/result_7691ceca39f14ff7bce993a33e1d1f20.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:08"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766831566,
+    "image_url": "/api/static/result_176b087d4d244bacb799270137db08eb.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:02"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 2,
+    "confidence": "0.10",
+    "color": "danger",
+    "timestamp": 1766831535,
+    "image_url": "/api/static/result_d02a6837214246719e0d7a32910d4614.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "16:02"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 5,
+    "confidence": "0.13",
+    "color": "danger",
+    "timestamp": 1766831180,
+    "image_url": "/api/static/result_6b497f8e3f5547ccb5db7e89e70667d0.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "15:56"
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 2,
+    "confidence": "0.09",
+    "color": "danger",
+    "timestamp": 1766831160,
+    "image_url": "/api/static/result_3ea6373a04cb4484b64f28e3df505a51.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "15:56"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766830850,
+    "image_url": "/api/static/result_af46bad5312d4764ba6e66e7e1533183.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "15:50"
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": "0.00",
+    "color": "safe",
+    "timestamp": 1766830715,
+    "image_url": "/api/static/result_1eb4046fdc89490fbd7b3bacb1f7798a.jpg",
+    "engine": "YOLO-v8",
+    "date_str": "2025-12-27",
+    "time_str": "15:48"
+  }
+]

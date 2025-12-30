@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Microplastic Detection System</title>
+
+<style>
+body {
+    background: linear-gradient(135deg, #020024, #0b132b);
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+}
+
+.card {
+    background: #1c2541;
+    width: 75%;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+}
+
+input, button {
+    padding: 12px;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    background: #3a86ff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+img {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 2px solid #3a86ff;
+    margin-top: 20px;
+}
+
+.status {
+    font-size: 22px;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.green { background: #1b5e20; }
+.orange { background: #ff9800; }
+.red { background: #b71c1c; }
+
+.info {
+    margin-top: 10px;
+    color: #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>AI-Based Microplastic Detection</h1>
+    <p>Upload an underwater image to detect macroplastic</p>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <br>
+        <button type="submit">Upload & Detect</button>
+    </form>
+
+    {% if output_image %}
+        <h2>Detection Result</h2>
+
+        <img src="{{ url_for('static', filename=output_image) }}?v={{ ts }}">
+
+        <div class="status {{ color }}">
+            {{ status }}
+        </div>
+
+        <div class="info">
+            🔍 Detections: {{ detections }} |
+            🎯 Max Confidence: {{ confidence }}
+        </div>
+
+        <p class="info">
+            ⚠ Only detections above confidence threshold are considered valid plastic.
+        </p>
+    {% endif %}
+
+    <p class="info">
+        Final Year Project • Microplastic Detection System
+    </p>
+</div>
+
+</body>
+</html>
