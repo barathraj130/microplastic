@@ -1,6 +1,142 @@
 [
   {
     "status": "Microplastics Detected",
+    "detections": 1,
+    "confidence": 0.577,
+    "color": "danger",
+    "image_url": "/api/static/result_420223d41a7f4ddbbe3fdc6955856d35.jpg",
+    "timestamp": 1767184665
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 3,
+    "confidence": 0.205,
+    "color": "danger",
+    "image_url": "/api/static/result_29053bc1f3594f8bafc8e99b2e64f09f.jpg",
+    "timestamp": 1767184605
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 1,
+    "confidence": 0.577,
+    "color": "danger",
+    "image_url": "/api/static/result_811db34c080f43f8a53a9249d67f66ba.jpg",
+    "timestamp": 1767184302
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": 0.0,
+    "color": "safe",
+    "image_url": "/api/static/result_5b83dfc835354b469b481827d30ceb8b.jpg",
+    "timestamp": 1767184089
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": 0.0,
+    "color": "safe",
+    "image_url": "/api/static/result_c468a7ee2c2345ce9ba002aab0828003.jpg",
+    "timestamp": 1767183381
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": 0.0,
+    "color": "safe",
+    "image_url": "/api/static/result_95b7e5eaa32442738b095f7f00403909.jpg",
+    "timestamp": 1767183346
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": 0.0,
+    "color": "safe",
+    "image_url": "/api/static/result_25a15c2fbc89458a89d1da02e9768c54.jpg",
+    "timestamp": 1767183279
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 132,
+    "confidence": 0.074,
+    "color": "danger",
+    "image_url": "/api/static/result_3b803fe112f04189a461118127e4f514.jpg",
+    "timestamp": 1767182686
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 127,
+    "confidence": 0.107,
+    "color": "danger",
+    "image_url": "/api/static/result_09a4db34771d4390b1e4d05f46c2bb02.jpg",
+    "timestamp": 1767182648
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 127,
+    "confidence": 0.107,
+    "color": "danger",
+    "image_url": "/api/static/result_7bee5ff0ec9c4a82ad5e99baf38a60d4.jpg",
+    "timestamp": 1767181760
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 254,
+    "confidence": 0.067,
+    "color": "danger",
+    "image_url": "/api/static/result_433c23193da74b1da7d4d6a4b30cd4b3.jpg",
+    "timestamp": 1767181607
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 254,
+    "confidence": 0.067,
+    "color": "danger",
+    "image_url": "/api/static/result_a87d8a964a7f46ab966eafb59b0da1f9.jpg",
+    "timestamp": 1767171437
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": 0.0,
+    "color": "safe",
+    "image_url": "/api/static/result_01f9b71dcfb04397b6e27a8f45042f02.jpg",
+    "timestamp": 1767123306
+  },
+  {
+    "status": "Microplastics Detected",
+    "detections": 29,
+    "confidence": 0.757,
+    "color": "danger",
+    "image_url": "/api/static/result_199b64f75ac2422590f7acb8a9f6bdd7.jpg",
+    "timestamp": 1767119270
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": 0.0,
+    "color": "safe",
+    "image_url": "/api/static/result_288d82b6ac934dc591704da3d61a3bac.jpg",
+    "timestamp": 1767118040
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": 0.0,
+    "color": "safe",
+    "image_url": "/api/static/result_fa80239fec1b4466833a3691f8376f03.jpg",
+    "timestamp": 1767117805
+  },
+  {
+    "status": "Clean Water",
+    "detections": 0,
+    "confidence": 0.0,
+    "color": "safe",
+    "image_url": "/api/static/result_8438ded139974421a3abd4e5fdec8f2e.jpg",
+    "timestamp": 1767116810
+  },
+  {
+    "status": "Microplastics Detected",
     "detections": 7,
     "confidence": 0.742,
     "color": "danger",
