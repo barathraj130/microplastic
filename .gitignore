@@ -1,29 +1,27 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
 venv/
 
-# Node
-node_modules/
+# Flask outputs
+server/uploads/*
+server/static/outputs/*
+server/static/output/*
+server/static/result_*.jpg
+server/history.json
 
-# VS Code
-.vscode/
-
-# AI / ML large files
+# ML Models and Datasets
 *.pt
-*.onnx
-*.h5
-*.weights
+*.pth
+ml_model/dataset/
 
-# Datasets & outputs
-datasets/
-detections/
-uploads/
-test_videos/
-reports/
+# Vite cache
+client/.vite/
+client/dist/
+client/tsconfig.tsbuildinfo
 
-# Logs
-*.log
+# Node
+client/node_modules/
 
 # OS
 .DS_Store
