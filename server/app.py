@@ -9,6 +9,7 @@ import uuid
 import time
 import json
 import cv2
+import numpy as np
 import torch
 import torch.nn as nn
 from torchvision import models, transforms
@@ -25,7 +26,6 @@ UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 HISTORY_FILE = os.path.join(BASE_DIR, "history.json")
 
-# 🔴 IMPORTANT FIX — model is OUTSIDE server folder
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
 YOLO_MODEL_PATH = os.path.join(ROOT_DIR, "ml_model", "weights", "best.pt")
@@ -72,10 +72,20 @@ app = Flask(__name__)
 CORS(app)
 
 # ===================== PARAMS (CONFIGURABLE) =====================
-CONF_THRESHOLD = 0.15       # Accept detections with 15%+ confidence (lowered)
-YOLO_CONF = 0.05            # YOLO initial detection threshold (lowered)
-CNN_THRESHOLD = 0.6         # CNN validation threshold (if enabled)
-USE_CNN_VALIDATION = False  # Set to True to enable CNN double-check
+CONF_THRESHOLD = 0.10
+YOLO_CONF = 0.05
+CNN_THRESHOLD = 0.6
+USE_CNN_VALIDATION = False
+# ===================== GLOBAL VARIABLES =====================
+latest_result = {
+    "status": "Waiting",
+    "detections": 0,
+    "confidence": 0.0
+}
+
+# HTTP Camera method globals
+latest_camera_frame = None
+latest_frame_time = 0
 
 # ===================== HISTORY =====================
 def save_to_history(entry):
@@ -92,31 +102,24 @@ def save_to_history(entry):
 
 # ===================== CNN VALIDATION =====================
 def validate_with_cnn(roi_bgr):
-    """
-    Validate detection with CNN classifier
-    Returns (is_plastic: bool, confidence: float)
-    """
     if cnn_model is None or roi_bgr.size == 0:
-        return True, 1.0  # If no CNN, accept all
+        return True, 1.0
     
     try:
-        # Convert BGR to RGB
         roi_rgb = cv2.cvtColor(roi_bgr, cv2.COLOR_BGR2RGB)
         pil_img = Image.fromarray(roi_rgb)
-        
-        # Transform and predict
         tensor = cnn_tf(pil_img).unsqueeze(0).to(device)
         
         with torch.no_grad():
             outputs = cnn_model(tensor)
             probs = torch.softmax(outputs, dim=1)[0]
-            confidence = float(probs[1])  # Probability of being plastic
+            confidence = float(probs[1])
             is_plastic = confidence >= CNN_THRESHOLD
         
         return is_plastic, confidence
     except Exception as e:
         print(f"⚠️ CNN validation error: {e}")
-        return True, 1.0  # On error, accept detection
+        return True, 1.0
 
 # ===================== ROUTES =====================
 @app.route("/")
@@ -129,7 +132,6 @@ def serve_static(filename):
 
 @app.route("/api/history", methods=["GET"])
 def get_history():
-    """Return detection history"""
     if os.path.isfile(HISTORY_FILE):
         with open(HISTORY_FILE) as f:
             history = json.load(f)
@@ -155,7 +157,6 @@ def upload():
         detections = 0
         max_conf = 0.0
 
-        # Run YOLO detection
         results = yolo_model(img, conf=YOLO_CONF, verbose=False)
 
         print(f"🔍 YOLO candidates:", len(results[0].boxes) if results[0].boxes else 0)
@@ -168,12 +169,10 @@ def upload():
                 conf = float(box.conf[0])
                 x1, y1, x2, y2 = map(int, box.xyxy[0])
 
-                # Extract ROI
                 roi = img[y1:y2, x1:x2]
                 if roi.size == 0:
                     continue
 
-                # Validate with CNN if enabled
                 is_plastic = True
                 cnn_conf = 1.0
                 
@@ -183,15 +182,12 @@ def upload():
                 else:
                     print(f"📦 YOLO: {conf:.3f}")
 
-                # Accept if passes both thresholds
                 if conf >= CONF_THRESHOLD and is_plastic:
                     detections += 1
                     max_conf = max(max_conf, conf)
                     
-                    # Draw bounding box
                     cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
                     
-                    # Add label
                     label = f"PLASTIC {conf:.2f}"
                     if USE_CNN_VALIDATION:
                         label = f"P:{conf:.2f}|C:{cnn_conf:.2f}"
@@ -207,11 +203,9 @@ def upload():
                     )
                     print("✅ Accepted detection")
 
-        # Save result image
         out_name = f"result_{uid}.jpg"
         cv2.imwrite(os.path.join(STATIC_DIR, out_name), img)
 
-        # Create response
         response = {
             "status": "Microplastics Detected" if detections else "Clean Water",
             "detections": detections,
@@ -230,52 +224,37 @@ def upload():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
-# ===================== LIVE ESP32 STREAM =====================
-ESP32_STREAM_URL = "http://10.63.103.202:81/stream"
-cap = None
-
-latest_result = {
-    "status": "Waiting",
-    "detections": 0,
-    "confidence": 0.0
-}
-
-def get_cap():
-    global cap
-    if cap is None or not cap.isOpened():
-        print("🔄 Connecting to ESP32 stream...")
-        cap = cv2.VideoCapture(ESP32_STREAM_URL, cv2.CAP_FFMPEG)
-        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-    return cap
-
-def generate_frames():
-    global latest_result
-
-    while True:
-        cap = get_cap()
-        ret, frame = cap.read()
-
-        if not ret:
-            time.sleep(0.1)
-            continue
-
+# ===================== HTTP CAMERA METHOD (NEW!) =====================
+@app.route("/api/camera/frame", methods=["POST"])
+def receive_camera_frame():
+    """Receive camera frames from ESP32-CAM via HTTP POST"""
+    global latest_camera_frame, latest_frame_time, latest_result
+    
+    try:
+        image_data = request.data
+        
+        if not image_data:
+            return jsonify({"error": "No image data"}), 400
+        
+        nparr = np.frombuffer(image_data, np.uint8)
+        frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        
+        if frame is None:
+            return jsonify({"error": "Invalid image"}), 400
+        
         detections = 0
         max_conf = 0.0
-
-        # Run YOLO on frame
+        
         results = yolo_model(frame, conf=YOLO_CONF, verbose=False)
-
+        
         for r in results:
             if r.boxes is None:
                 continue
             for box in r.boxes:
                 conf = float(box.conf[0])
-                
-                # Apply threshold
                 if conf >= CONF_THRESHOLD:
                     x1, y1, x2, y2 = map(int, box.xyxy[0])
                     
-                    # Optional CNN validation for live stream
                     is_plastic = True
                     if USE_CNN_VALIDATION and cnn_model is not None:
                         roi = frame[y1:y2, x1:x2]
@@ -284,28 +263,61 @@ def generate_frames():
                     if is_plastic:
                         detections += 1
                         max_conf = max(max_conf, conf)
+                        
                         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2)
-                        cv2.putText(
-                            frame,
-                            f"{conf:.2f}",
-                            (x1, y1 - 6),
-                            cv2.FONT_HERSHEY_SIMPLEX,
-                            0.5,
-                            (0, 0, 255),
-                            2,
-                        )
-
+                        cv2.putText(frame, f"{conf:.2f}", (x1, y1-6),
+                                  cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+        
         latest_result["status"] = "Microplastics Detected" if detections else "Clean Water"
         latest_result["detections"] = detections
         latest_result["confidence"] = round(max_conf, 3)
+        
+        latest_camera_frame = frame
+        latest_frame_time = time.time()
+        
+        return jsonify({
+            "status": "success",
+            "detections": detections,
+            "confidence": round(max_conf, 3)
+        })
+        
+    except Exception as e:
+        print(f"❌ Error receiving frame: {e}")
+        return jsonify({"error": str(e)}), 500
 
-        _, buffer = cv2.imencode(".jpg", frame)
-        yield b"--frame\r\nContent-Type: image/jpeg\r\n\r\n" + buffer.tobytes() + b"\r\n"
 
 @app.route("/live")
 def live():
-    return Response(generate_frames(),
-        mimetype="multipart/x-mixed-replace; boundary=frame")
+    """Stream using HTTP POST method from ESP32-CAM"""
+    def generate_http():
+        while True:
+            if latest_camera_frame is not None and time.time() - latest_frame_time < 2.0:
+                _, buffer = cv2.imencode('.jpg', latest_camera_frame)
+                frame_bytes = buffer.tobytes()
+                
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+            else:
+                blank = 255 * np.ones((480, 640, 3), dtype=np.uint8)
+                if latest_camera_frame is None:
+                    cv2.putText(blank, "Waiting for ESP32-CAM...", (120, 220),
+                              cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
+                    cv2.putText(blank, "Check Serial Monitor", (140, 270),
+                              cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+                else:
+                    cv2.putText(blank, "Connection Lost", (180, 240),
+                              cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+                
+                _, buffer = cv2.imencode('.jpg', blank)
+                frame_bytes = buffer.tobytes()
+                
+                yield (b'--frame\r\n'
+                       b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+            
+            time.sleep(0.1)
+    
+    return Response(generate_http(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 @app.route("/result")
 def result():
@@ -321,6 +333,8 @@ if __name__ == "__main__":
     print(f"CNN Validation: {'ENABLED' if USE_CNN_VALIDATION else 'DISABLED'}")
     if USE_CNN_VALIDATION:
         print(f"CNN Threshold: {CNN_THRESHOLD}")
+    print(f"HTTP Camera Endpoint: /api/camera/frame")
+    print(f"Live Stream: /live")
     print("="*60 + "\n")
     
     app.run(host="0.0.0.0", port=5000, debug=True)

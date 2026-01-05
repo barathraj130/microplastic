@@ -16,7 +16,7 @@ export function UploadZone({ onResult }: UploadZoneProps) {
   const [preview, setPreview] = React.useState<string | null>(null);
   const [uploading, setUploading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -69,7 +69,7 @@ export function UploadZone({ onResult }: UploadZoneProps) {
     formData.append("file", file);
 
     try {
-      const response = await axios.post("/api/upload", formData, {
+      const response = await axios.post("/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

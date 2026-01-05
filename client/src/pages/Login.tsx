@@ -1,99 +1,176 @@
-import { motion } from "framer-motion";
-import { ArrowRight, Loader2, Lock, Mail } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AntiGravityBackground } from "../components/AntiGravityBackground";
-import { Button } from "../components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
-import { Input } from "../components/ui/input";
+import { motion } from "framer-motion"
+import { ArrowRight, Droplets, Lock, Mail } from "lucide-react"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
+// ✅ NAMED EXPORT (not default)
 export function Login() {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleLogin = () => {
+    setLoading(true)
     setTimeout(() => {
-      setLoading(false);
-      navigate("/dashboard");
-    }, 1500);
-  };
+      navigate("/dashboard")
+    }, 1200)
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#050b14]">
-      <AntiGravityBackground />
-      
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="w-[90vw] md:w-[420px] z-10"
-      >
-        <Card className="rounded-[8px] border-white/10 bg-[#101830]/80 shadow-2xl backdrop-blur-[12px] overflow-hidden p-0 border-[1px]">
-          <CardHeader className="p-8 pb-4 space-y-2 text-center">
-            <CardTitle className="text-[28px] font-bold tracking-tight text-white font-heading">
-              Detection App
-            </CardTitle>
-            <CardDescription className="text-[#a0aec0] text-[14px]">
-              Microplastic Detection Interface v2.5
-            </CardDescription>
-          </CardHeader>
-          <form onSubmit={handleLogin}>
-            <CardContent className="px-8 py-4 space-y-4">
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-black uppercase tracking-[0.15em] text-[#a0aec0] px-1">
-                  Access Identifier
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-[#0a0e1a] via-[#0d1520] to-[#0a0e1a] overflow-hidden">
+      {/* Animated Background Particles */}
+      <div className="absolute inset-0">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: Math.random() * 4 + 2,
+              height: Math.random() * 4 + 2,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              background: i % 3 === 0 ? '#007bff' : i % 2 === 0 ? '#00d4ff' : '#fff',
+              boxShadow: `0 0 ${Math.random() * 20 + 10}px currentColor`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              opacity: [0.3, 0.8, 0.3],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: Math.random() * 3 + 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-md"
+        >
+          {/* Logo & Title */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="mb-8 text-center"
+          >
+            <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg shadow-blue-500/50">
+              <Droplets className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="mb-2 text-4xl font-black tracking-tight text-white">
+             NIVORA AI<span className="text-blue-500">SCAN</span>
+            </h1>
+            <p className="text-sm font-medium text-gray-400">
+              Microplastic Detection Platform
+            </p>
+          </motion.div>
+
+          {/* Login Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-white/[0.02] p-8 shadow-2xl backdrop-blur-xl"
+          >
+            {/* Glow effect */}
+            <div className="absolute -top-24 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-blue-500/20 blur-3xl" />
+
+            <div className="relative space-y-6">
+              <div className="text-center">
+                <h2 className="text-xl font-bold text-white">Welcome Back</h2>
+                <p className="mt-1 text-sm text-gray-400">
+                  Sign in to access your dashboard
+                </p>
+              </div>
+
+              {/* Email Input */}
+              <div>
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Email Address
                 </label>
-                <div className="relative group">
-                  <Input 
-                    placeholder="researcher@node.local" 
-                    className="h-[46px] pl-20 rounded-[6px] bg-black/60 border-white/5 text-[14px] focus:border-[#007bff]/50 focus:bg-black/80 transition-all font-medium"
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" />
+                  <input
                     type="email"
-                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-12 pr-4 text-white placeholder-gray-500 transition-all focus:border-blue-500 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                   />
-                  <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-[#4a5568] group-focus-within:text-[#007bff] transition-colors z-10" />
                 </div>
               </div>
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-black uppercase tracking-[0.15em] text-[#a0aec0] px-1">
-                  Secure Token
+
+              {/* Password Input */}
+              <div>
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-400">
+                  Password
                 </label>
-                <div className="relative group">
-                  <Input 
-                    placeholder="••••••••••••" 
+                <div className="relative">
+                  <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" />
+                  <input
                     type="password"
-                    className="h-[46px] pl-20 rounded-[6px] bg-black/60 border-white/5 text-[14px] focus:border-[#007bff]/50 focus:bg-black/80 transition-all font-medium"
-                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-12 pr-4 text-white placeholder-gray-500 transition-all focus:border-blue-500 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                   />
-                  <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-[#4a5568] group-focus-within:text-[#007bff] transition-colors z-10" />
                 </div>
               </div>
-            </CardContent>
-            <CardFooter className="p-8 pt-4">
-              <Button 
-                className="w-full h-[44px] rounded-[8px] bg-[#ff8c00] hover:bg-[#e67e00] text-white font-bold text-[14px] transition-all duration-300 shadow-lg shadow-orange-500/20 active:scale-[0.98]" 
+
+              {/* Login Button */}
+              <button
+                onClick={handleLogin}
                 disabled={loading}
-                type="submit"
+                className="group relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 px-6 py-4 font-bold text-white shadow-lg shadow-blue-500/50 transition-all hover:shadow-blue-500/70 disabled:opacity-50"
               >
-                {loading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <span className="flex items-center tracking-wide">
-                    AUTHENTICATE <ArrowRight className="ml-2 h-4 w-4" />
-                  </span>
-                )}
-              </Button>
-            </CardFooter>
-          </form>
-        </Card>
-        
-        <div className="mt-8 text-center">
-          <p className="text-[11px] text-[#4a5568] font-bold uppercase tracking-[0.2em]">
-            Precision Monitoring Environment
-          </p>
-        </div>
-      </motion.div>
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  {loading ? (
+                    <>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="h-5 w-5 rounded-full border-2 border-white border-t-transparent"
+                      />
+                      Authenticating...
+                    </>
+                  ) : (
+                    <>
+                      Sign In
+                      <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    </>
+                  )}
+                </span>
+                <div className="absolute inset-0 -z-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 transition-opacity group-hover:opacity-100" />
+              </button>
+
+              {/* Footer */}
+              <div className="text-center">
+                <button className="text-sm text-gray-400 transition-colors hover:text-blue-400">
+                  Forgot password?
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Bottom Text */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="mt-6 text-center text-xs text-gray-500"
+          >
+            © 2026  Advanced Environmental Monitoring
+          </motion.p>
+        </motion.div>
+      </div>
     </div>
-  );
+  )
 }
