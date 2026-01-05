@@ -26,3 +26,27 @@ client/node_modules/
 # OS
 .DS_Store
 datasets/
+# Node modules
+client/node_modules/
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+venv/
+
+# Outputs
+server/uploads/
+server/static/
+server/history.json
+
+# Datasets
+datasets/
+ml_model/dataset/
+
+# Build files
+client/dist/
+client/.vite/
+
+# OS files
+.DS_Store
