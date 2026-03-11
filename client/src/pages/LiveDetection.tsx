@@ -9,7 +9,6 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 
 import { CameraStream } from "../components/CameraStream"
-import { Hero } from "../components/Hero"
 import { UploadZone } from "../components/UploadZone"
 import { Button } from "../components/ui/button"
 import { Card, CardContent } from "../components/ui/card"
@@ -25,18 +24,17 @@ interface AnalysisResult {
 }
 
 export function LiveDetection() {
-  const [started, setStarted] = useState(false)
+  const [viewMode, setViewMode] = useState<"dual" | "esp32" | "iphone">("dual")
   const [result, setResult] = useState<AnalysisResult | null>(null)
 
   const reset = () => {
     setResult(null)
-    setStarted(false)
   }
 
   return (
     <div className="space-y-10">
       {/* ================= HEADER ================= */}
-      <div className="flex items-center">
+      <div className="flex items-center justify-between">
         <Link to="/dashboard">
           <Button
             variant="ghost"
@@ -46,64 +44,83 @@ export function LiveDetection() {
             Command Center
           </Button>
         </Link>
+        <div className="flex items-center gap-2 bg-white/5 p-1 rounded-lg border border-white/10">
+           <Button 
+            size="sm" 
+            variant={viewMode === "dual" ? "default" : "ghost"}
+            onClick={() => setViewMode("dual")}
+            className="text-[10px] font-black uppercase tracking-tighter"
+           >Dual View</Button>
+           <Button 
+            size="sm" 
+            variant={viewMode === "esp32" ? "default" : "ghost"}
+            onClick={() => setViewMode("esp32")}
+            className="text-[10px] font-black uppercase tracking-tighter"
+           >ESP32 Only</Button>
+           <Button 
+            size="sm" 
+            variant={viewMode === "iphone" ? "default" : "ghost"}
+            onClick={() => setViewMode("iphone")}
+            className="text-[10px] font-black uppercase tracking-tighter"
+           >iPhone Only</Button>
+        </div>
       </div>
 
       {/* ================= CONTENT ================= */}
       <AnimatePresence mode="wait">
-        {/* ================= HERO ================= */}
-        {!started && (
-          <motion.div
-            key="hero"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-          >
-            <Hero onStart={() => setStarted(true)} />
-          </motion.div>
-        )}
-
-        {/* ================= LIVE + UPLOAD ================= */}
-        {started && !result && (
+        {!result && (
           <motion.div
             key="live"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
             className="space-y-10"
           >
-            {/* ===== TITLE ===== */}
-            <div className="space-y-2">
-              <h1 className="text-4xl font-extrabold tracking-tight text-white">
-                Optical Analysis
-              </h1>
-              <p className="text-sm text-[#a0aec0] max-w-2xl">
-                Microscopic sensor synchronization via ESP32-CAM (MJPEG) for
-                real-time polymer classification.
-              </p>
+            {/* ##### TITLE ##### */}
+            <div className="flex justify-between items-end">
+              <div className="space-y-2">
+                <h1 className="text-4xl font-black tracking-tighter text-white">
+                   Optical Analysis Node
+                </h1>
+                <p className="text-sm text-[#a0aec0]">
+                   Analyze your samples across the optical array.
+                </p>
+              </div>
             </div>
 
-            {/* ===== WORKSPACE ===== */}
-            <div className="max-w-3xl mx-auto space-y-8">
-              {/* ===== LIVE CAMERA ===== */}
-              <Card className="p-4 bg-[#101830]/80 border-white/10 backdrop-blur">
-                <CameraStream />
-              </Card>
-
-              {/* ===== DIVIDER ===== */}
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t border-white/10" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-[#05070a] px-2 text-[#4a5568] font-bold tracking-widest">
-                    Or upload manual sample
-                  </span>
-                </div>
+            {/* ##### WORKSPACE ##### */}
+            <div className={cn(
+               "mx-auto space-y-12 transition-all duration-500",
+               viewMode === "dual" ? "max-w-7xl" : "max-w-none px-4"
+            )}>
+              
+              <div className={cn(
+                "grid gap-6 transition-all duration-500",
+                viewMode === "dual" ? "md:grid-cols-2" : "grid-cols-1"
+              )}>
+                {(viewMode === "dual" || viewMode === "esp32") && (
+                   <Card className={cn(
+                     "p-4 bg-[#101830]/80 border-white/10 backdrop-blur-xl shadow-2xl overflow-hidden",
+                     viewMode !== "dual" && "min-h-[80vh] flex flex-col"
+                   )}>
+                     <CameraStream cameraId="esp32" fill={viewMode !== "dual"} />
+                   </Card>
+                )}
+                
+                {(viewMode === "dual" || viewMode === "iphone") && (
+                   <Card className={cn(
+                     "p-4 bg-[#101830]/80 border-white/10 backdrop-blur-xl shadow-2xl overflow-hidden",
+                     viewMode !== "dual" && "min-h-[80vh] flex flex-col"
+                   )}>
+                     <CameraStream cameraId="iphone" fill={viewMode !== "dual"} />
+                   </Card>
+                )}
               </div>
 
-              {/* ===== UPLOAD ===== */}
-              <Card className="p-4 bg-[#101830]/80 border-white/10 backdrop-blur">
+              {/* ##### UPLOAD PANEL ##### */}
+              <div className="pt-8">
                 <UploadZone onResult={setResult} />
-              </Card>
+              </div>
+
             </div>
           </motion.div>
         )}

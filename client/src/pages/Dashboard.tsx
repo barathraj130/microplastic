@@ -1,6 +1,6 @@
 import axios from "axios"
 import { motion } from "framer-motion"
-import { Activity, AlertTriangle, Camera, TrendingUp } from "lucide-react"
+import { Activity, AlertTriangle, Camera, Smartphone, TrendingUp } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
@@ -312,7 +312,16 @@ export function Dashboard() {
                 >
                   <Camera className="mb-1 inline h-5 w-5" /> Start Live Detection
                 </button>
-                <button className="w-full rounded-xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-white transition-all hover:bg-white/10">
+                <button 
+                  onClick={() => navigate("/node")}
+                  className="w-full rounded-xl border border-[#ff8c00]/40 bg-[#ff8c00]/10 px-6 py-4 font-bold text-white transition-all hover:bg-[#ff8c00]/20"
+                >
+                  <Smartphone className="mb-1 inline h-5 w-5 mr-2" /> Link Remote Node
+                </button>
+                <button 
+                  onClick={() => navigate("/live")}
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-6 py-4 font-semibold text-white transition-all hover:bg-white/10"
+                >
                   Upload Sample
                 </button>
                 <button

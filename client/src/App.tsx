@@ -1,16 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion"
 import {
-  Link,
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-  useLocation,
+    Link,
+    Navigate,
+    Route,
+    BrowserRouter as Router,
+    Routes,
+    useLocation,
 } from "react-router-dom"
 import { cn } from "./lib/utils"
 import { Dashboard } from "./pages/Dashboard"
 import { LiveDetection } from "./pages/LiveDetection"
 import { Login } from "./pages/Login"
+import { NodePage } from "./pages/NodePage"
 import { About, History, Settings } from "./pages/Placeholders"
 
 /* ======================================================
@@ -150,6 +151,7 @@ export default function App() {
             </Layout>
           }
         />
+        <Route path="/node" element={<NodePage />} />
 
         {/* Fallback - redirect to login */}
         <Route path="*" element={<Navigate to="/login" replace />} />

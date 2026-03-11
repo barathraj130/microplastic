@@ -1,52 +1,54 @@
-# Python
-__pycache__/
-*.py[cod]
-venv/
-
-# Flask outputs
-server/uploads/*
-server/static/outputs/*
-server/static/output/*
-server/static/result_*.jpg
-server/history.json
-
-# ML Models and Datasets
-*.pt
-*.pth
-ml_model/dataset/
-
-# Vite cache
-client/.vite/
-client/dist/
-client/tsconfig.tsbuildinfo
-
-# Node
-client/node_modules/
-
-# OS
-.DS_Store
-datasets/
-# Node modules
-client/node_modules/
-node_modules/
-
-# Python cache
+# Python cache and environment
 __pycache__/
 *.pyc
 venv/
+venv2/
+venv_new/
+.env
 
-# Outputs
-server/uploads/
-server/static/
-server/history.json
-
-# Datasets
-datasets/
-ml_model/dataset/
-
-# Build files
+# Node modules and build
+node_modules/
+client/node_modules/
 client/dist/
 client/.vite/
+client/tsconfig.tsbuildinfo
 
 # OS files
 .DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+server_log.txt
+status.json
+
+# Model weights and models (too large)
+*.pt
+*.onnx
+*.engine
+yolo_model/
+ai_model/
+ml_model/
+
+# Data and large assets
+datasets/
+test_videos/
+detections/
+uploads/
+server/uploads/
+server/static/result_*.jpg
+server/static/output/
+server/static/results/
+server/venv/
+server/venv2/
+server/venv_new/
+server/yolo_model/
+server/ml_model/
+**/__pycache__/
+**.pyc
+
+# Backup and temp files
+*.backup
+*.bak
+*.timestamp-*.mjs
+.vscode/
